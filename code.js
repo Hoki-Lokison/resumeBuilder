@@ -198,14 +198,7 @@ var app= new Vue ({
   },
 
   computed: {
-    display = function () {
-      if (this.pickingColor == true) {
-        document.getElementById("colorPick").style.display = "block";
-      } else if (this.pickingColor == false) {
-
-      }
-    }
-
+    
   },
 
   created: function () {
