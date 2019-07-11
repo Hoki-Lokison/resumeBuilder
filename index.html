@@ -527,7 +527,7 @@
                 </v-container>
 								<!-- Changes end here-->
 
-            <v-container v-if="template == 'malia'">
+            <v-container id="resume" v-if="template == 'malia'">
                     <v-layout justify-center row-wrap>
                             <v-flex xs12 sm10>
                                 <v-card>
@@ -615,7 +615,7 @@
                     </v-layout>
             </v-container>
 
-            <v-container grid-list-lg fluid v-if="template == 'hannah'">
+            <v-container id="resume" grid-list-lg fluid v-if="template == 'hannah'">
                 <v-layout row wrap>
                     <v-flex>
                         <v-card xs12 sm10>
@@ -681,13 +681,24 @@
                 </v-layout>
             </v-container>
 
-            <v-container grid-list-lg fluid v-if="template == 'taft'">
+            <v-container id="resume" grid-list-lg fluid v-if="template == 'taft'">
 
             </v-container>
 
-            <v-container grid-list-lg fluid v-if="template == 'sharon'">
+            <v-container id="resume" grid-list-lg fluid v-if="template == 'sharon'">
 
             </v-container>
+
+						<v-container>
+						<v-layout>
+							<v-flex>
+								<v-toolbar>
+									<div id="editor"></div>
+									<v-btn @click="pdfSave()"> Save as PDF </v-btn>
+								</v-toolbar>
+							</v-flex>
+						</v-layout>
+						</v-container>
         </div>
 			</v-content>
 		</v-app>

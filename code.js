@@ -295,6 +295,19 @@ var app= new Vue ({
         this.pickingColor = false;
       };
     },
+    pdfSave: function () { //changed
+      var doc = new jsPDF();
+      var specialElementHandlers = {
+          '#editor': function (element, renderer) {
+              return true;
+          }
+      };
+      doc.fromHTML($('#resume').html(), 15, 15, {
+        'width': 170,
+        'elementHandlers': specialElementHandlers
+      });
+      doc.save(this.personalinfoEdit.first_name+'_Resume.pdf');
+    },
 
   },
 
