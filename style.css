@@ -12,7 +12,7 @@
   display: none;
 }
 
-.fixedPosition { /*changed*/
+#fixedPos { /*changed*/
   position: fixed;
   z-index: 100;
 }

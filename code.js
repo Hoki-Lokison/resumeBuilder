@@ -293,8 +293,7 @@ var app= new Vue ({
         this.pickingColor = true;
       } else if (this.pickingColor == true) {
         this.pickingColor = false;
-        x = document.getElementById("main");
-        x.style.setAttribute("style", "display: hidden;");
+        document.getElementById("main").style.setAttribute("style", "display: hidden;");
 
       };
     },
@@ -318,6 +317,9 @@ var app= new Vue ({
   },
 
   computed: {
+    computedColor: function () {
+      this.selected_color_accent = this.selected_color_accent;
+    }
 
     },
 })

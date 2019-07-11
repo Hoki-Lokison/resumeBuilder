@@ -511,13 +511,17 @@
                 <v-container>
                     <v-layout row wrap>
                         <v-flex xs3 offset-xs5>
-                            <v-card id="main">
+                            <v-card id="fixedPos">
+															<v-card-text>
                                 <canvas id="color-picker-main" width="150" height="150" style="width: 150px; height: 150px;"></canvas>
+															</v-card-text>
                             </v-card>
 													</v-flex>
 													<v-flex xs3 offset-xs1>
-														<v-card>
+														<v-card id="fixedPos">
+															<v-card-text>
                                 <canvas id="color-picker-accent" width="150" height="150" style="width: 150px; height: 150px;"></canvas>
+															</v-card-text>
                             </v-card>
                         </v-flex>
                     </v-layout>
@@ -546,7 +550,7 @@
                                         </v-card>
                                             <v-layout>
                                                 <v-flex xs4 class="text-xs-center">
-                                                    <v-card :style="{color: selected_color_accent}" height="500%"> <!-- This is Changed-->
+                                                    <v-card :style="{color: computedColor}" height="500%"> <!-- This is Changed-->
                                                         <v-card tile height="4%">
                                                             <v-card-text>
                                                                 <h1 :class="{'headline': $vuetify.breakpoint.xsOnly, 'display-1': $vuetify.breakpoint.smOnly}">{{personalinfoEdit.first_name}} {{personalinfoEdit.last_name}}</h1>
