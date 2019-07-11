@@ -14,6 +14,27 @@ var app= new Vue ({
       programslist:[],
       softskillslist:[],
       awardslist:[],
+      statementlist:[],
+
+      personalinfoEdit:
+        {
+            first_name:"",
+            last_name:"",
+            address: "",
+            city:"",
+            state:"",
+            zip:"",
+            country: "",
+            email: "",
+            phone: "",
+            branding_statement: "",
+            professional_title: "",
+            linkedin: "",
+        },
+
+      statementEdit: {
+        statement: "",
+      },
 
       workexpEdit: {
           work_company: "",
@@ -30,7 +51,8 @@ var app= new Vue ({
         college: "",
         degree: "",
         gradyear: "",
-        menu: false
+        start_menu: false,
+        end_menu: false,
       },
 
       accomplishmentEdit: {
@@ -94,26 +116,61 @@ var app= new Vue ({
           "blue",
           "green"
       ],
-      selected_color: "",
+      selected_color_main: "", //changed
+      selected_color_accent: "", //changed
       picked_color: "black",
       pickingColor: false,
       color_brightness: 6,
       accent: 0,
-      info:
-          {
-              first_name:"",
-              last_name:"",
-              address: "",
-              city:"",
-              state:"",
-              zip:"",
-              country: "",
-              email: "",
-              phone: "",
-          },
+
+      statementdisplay: [],
+      workexpdisplay: [],
+      educationdisplay: [],
+      accomplishmentdisplay: [],
+      extracurriculardisplay: [],
+      languagesdisplay: [],
+      programsdisplay: [],
+      softskillsdisplay: [],
+      awardsdisplay: [],
+
+
+
+  },
+
+  created: function () {
+
+    new KellyColorPicker({ //changed
+      place : 'color-picker-main',
+      size : 150,
+      input : 'colorMain',
+      method: 'triangle',
+      input_format: "rgba",
+      alpha_slider: true,
+    });
+    new KellyColorPicker({ //changed
+      place : 'color-picker-accent',
+      size : 150,
+      input : 'colorAccent',
+      method: 'triangle',
+      input_format: "rgba",
+      alpha_slider: true,
+    });
+    addEventListener("click", function () { //changed
+      this.selected_color_main = document.getElementById("colorMain").style.backgroundColor;
+      console.log("Main Color: ", this.selected_color_main);
+      this.selected_color_accent = document.getElementById("colorAccent").style.backgroundColor;
+      console.log("Accent Color: ", this.selected_color_accent);
+    });
   },
 
   methods: {
+    addStatement: function(){
+      this.statementlist.push(this.statementEdit)
+
+      this.statementEdit= {
+        statement: "",
+      }
+    },
     addWork: function(){
       this.workexplist.push(this.workexpEdit)
       this.workexpEdit={
@@ -154,19 +211,24 @@ var app= new Vue ({
         title: "",
         proficiency:  "",
       }
-
-
     },
 
     addSkill: function(){
-      this.programslist.push(this.programsEdit)
+      this.softskillslist.push(this.softskillsEdit)
 
-      this.programsEdit= {
+      this.softskillsEdit= {
         title: "",
         proficiency:  "",
       }
+    },
 
+    addExtracurricular: function(){
+      this.extracurricularlist.push(this.extracurricularEdit)
 
+      this.extracurricularEdit= {
+        title: "",
+        proficiency:  "",
+      }
     },
 
     addAward: function(){
@@ -179,37 +241,83 @@ var app= new Vue ({
         description: "",
       }
     },
-    newKellyColorPicker: function () {
+
+    includeWork: function(exp) {
+      this.workexpdisplay.push(exp);
+      return true;
+    },
+    includeEducation: function(exp) {
+      this.workexpdisplay.push(exp);
+      return true;
+    },
+    includeAccomplishment: function(exp) {
+      this.workexpdisplay.push(exp);
+      return true;
+    },
+    includeAward: function(exp) {
+      this.workexpdisplay.push(exp);
+      return true;
+    },
+    includeProgram: function(exp) {
+      this.workexpdisplay.push(exp);
+      return true;
+    },
+    includeSkill: function(exp) {
+      this.workexpdisplay.push(exp);
+      return true;
+    },
+    includeExtracurricular: function(exp) {
+      this.workexpdisplay.push(exp);
+      return true;
+    },
+    includeLanguage: function(exp) {
+      this.workexpdisplay.push(exp);
+      return true;
+    },
+    includeStatement: function(exp) {
+      this.workexpdisplay.push(exp);
+      return true;
+    },
+
+    newKellyColorPickerMain: function () { //changed
       if (this.pickingColor == false) {
         new KellyColorPicker({
-          place : 'color-picker',
+          place : 'color-picker-main',
           size : 150,
-          input : 'color',
+          input : 'colorMain',
           method: 'triangle',
           input_format: "rgba",
           alpha_slider: true,
+          display: 'block',
         });
         this.pickingColor = true;
-      } else if (this.pickingColor == false) {
-      }
+      } else if (this.pickingColor == true) {
+        this.pickingColor = false;
+        x = document.getElementById("main");
+        x.style.setAttribute("style", "display: hidden;");
 
+      };
+    },
+    newKellyColorPickerAccent: function () { //changed
+      if (this.pickingColor == false) {
+        new KellyColorPicker({
+          place : 'color-picker-accent',
+          size : 150,
+          input : 'colorAccent',
+          method: 'triangle',
+          input_format: "rgba",
+          alpha_slider: true,
+          display: 'block',
+        });
+        this.pickingColor = true;
+      } else if (this.pickingColor == true) {
+        this.pickingColor = false;
+      };
     },
 
   },
 
   computed: {
-    
-  },
 
-  created: function () {
-    new KellyColorPicker({
-      place : 'color-picker',
-      size : 150,
-      input : 'color',
-      method: 'triangle',
-      input_format: "rgba",
-      alpha_slider: true,
-
-    });
-  },
-});
+    },
+})
