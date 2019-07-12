@@ -1,4 +1,3 @@
-
 #padding {
   padding: 2% 2%;
 }
@@ -11,8 +10,27 @@
 [v-cloak]{
   display: none;
 }
+.template{
+  margin: 10px;
+  padding: 5px;
+  margin-top: 0px;
+  background-color: gray
+}
+.information{
+  padding-top: 5px;
+}
+.v-progress-linear{
+  margin: 0rem 0;
+}
 
 #fixedPos { /*changed*/
-  position: absolute;
-  z-index: 100;
+position: absolute;
+z-index: 100;
 }
+/* progress {
+ 
+  background-color: orangered;
+}
+progress::-webkit-progress-bar {
+  color: crimson;
+} */
