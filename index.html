@@ -5,12 +5,15 @@
 		<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons" rel="stylesheet">
 		<link href="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.min.css" rel="stylesheet">
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+		<meta charset="utf-8"> <!-- changed -->
 	</head>
 	<div id="app1" v-cloak>
 		<v-app>
 			<v-content>
-        <v-toolbar height=80>
-          <v-toolbar-title>Resume<span class="font-weight-light">Builder</span> </v-toolbar-title>
+        <v-toolbar height=80 color="none">
+					<v-btn flat class="text-capitalize" @click="page = 'home' "> <!-- changed -->
+	          <v-toolbar-title>Resume<span class="font-weight-light">Builder</span> </v-toolbar-title>
+					</v-btn>
           <v-spacer></v-spacer>
           <v-toolbar-items>
               <v-btn flat @click="page = 'form' ">Input Form</v-btn>
@@ -18,11 +21,25 @@
               <v-btn flat @click="page = 'preview' ">Preview</v-btn>
           </v-toolbar-items>
       	</v-toolbar>
-        <div v-if="page == 'form'">
+
+				<div v-show="page == 'home'"> <!-- changed, added this entire page-->
+            <v-container>
+              <v-layout>
+                  <v-flex xs12 lg10 offset-lg1> <!-- changed -->
+                      <v-card class="pa-4">
+                          
+                      </v-card>
+                  </v-flex>
+              </v-layout>
+          </v-container>
+				</div>
+
+
+        <div v-show="page == 'form'"> <!-- changed -->
             <v-container>
                     <v-layout>
-                        <v-flex>
-                            <v-card class="pa-3">
+                        <v-flex xs12 lg10 offset-lg1> <!-- changed -->
+                            <v-card class="pa-4">
                                 <v-card-text class="headline">Welcome to the ResumeBuilder!</v-card-text>
                                 <v-card-text class="subheading">Enter in as much information as you can, but remember everything is optional. When you are done, go to the Your Info page to select which information you want included on your resume, then go to Preview to edit and customize your resume!</v-card-text>
                             </v-card>
@@ -32,7 +49,7 @@
             <v-container>
             <v-container>
                 <v-layout>
-                    <v-flex>
+                    <v-flex xs12 lg10 offset-lg1> <!-- changed -->
                         <v-card>
                             <v-expansion-panel expand>
                                     <v-expansion-panel-content id="personalinformation">
@@ -332,7 +349,7 @@
             </v-container>
         </div>
 
-        <div v-if="page == 'savedinfo'">
+        <div v-show="page == 'savedinfo'"> <!-- changed -->
                 <p>click on the <v-icon>add</v-icon> to use this information in your resume</p>
                 <v-container>
                     <v-layout>
@@ -488,7 +505,7 @@
                 </v-container>
             </div>
 
-        <div v-if="page == 'preview'">
+        <div v-show="page == 'preview'"> <!-- changed -->
           <v-toolbar id="template_tools"class="grey lighten-2" height="80%">
             <div class="text-xs-center">
                 <v-menu offset-y>
@@ -507,9 +524,9 @@
                 </v-menu>
             </div>
             <v-spacer></v-spacer>
-            <v-btn fab @click="newKellyColorPickerMain()" id="colorMain" value="#54aedb"></v-btn>
+            <v-btn fab @click="newKellyColorPickerMain()" id="colorMain"></v-btn>
             <v-toolbar-title class="text-uppercase font-weight-thin pr-3">Main Color</v-toolbar-title>
-            <v-btn fab @click="newKellyColorPickerAccent()" id="colorAccent" value="#54aedb"></v-btn>
+            <v-btn fab @click="newKellyColorPickerAccent()" id="colorAccent"></v-btn>
             <v-toolbar-title class="text-uppercase font-weight-thin pr-3">Accent Color</v-toolbar-title>
 					</v-toolbar>
           <v-container>

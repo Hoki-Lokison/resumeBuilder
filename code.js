@@ -103,7 +103,7 @@ var app= new Vue ({
             "blue",
             "green"
         ],
-        selected_color_main: "rgb(84, 174, 219)",
+        selected_color_main: "",
         selected_color_accent: "",
         pickingColorMain: false,
         pickingColor: false,
@@ -167,12 +167,10 @@ var app= new Vue ({
       this.getData("softskill")
       this.getData("award")
 
-      addEventListener("click", function () {
+      addEventListener("click", function () { //changed
         app.selected_color_main = document.getElementById("colorMain").style.backgroundColor;
-        console.log("Main Color: ", app.selected_color_main);
         app.selected_color_accent = document.getElementById("colorAccent").style.backgroundColor;
-        console.log("Accent Color: ", app.selected_color_accent);
-      });
+      }, {passive: true});
 
     },
 
