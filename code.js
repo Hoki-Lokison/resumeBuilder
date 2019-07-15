@@ -2,6 +2,7 @@
 var url = "https://createresume.herokuapp.com";
 
 
+
 var app= new Vue ({
     el: "#app1",
 
@@ -145,14 +146,12 @@ var app= new Vue ({
       workexpposition: "",
       position1: {},
 
-      //changed
       emailRules: [ //changed
         v => !!v || 'E-mail is required',
         v => /.+@.+/.test(v) || 'E-mail must be valid'
       ],
-      phoneRules: [ //changed
-        v => !!v || 'Phone Number is required',
-
+      fieldRules: [ //changed
+        v => !!v || 'This field is required',
       ],
 
     },
@@ -179,12 +178,12 @@ var app= new Vue ({
 
 
     methods: {
-
-      changePhone: function () { //changed
-        var newNum = this.personalinfoEdit.phone.match(/(\d{3})(\d{3})(\d{4})/);
-        this.personalinfoEdit.phone = "(" + newNum[1] + ") " + newNum[2] + "-" + newNum[3];
+      phoneNum: function () { //changed
+        var x = this.personalinfoEdit.phone.replace(/\D/g, '').match(`(\d{0,3})(\d{0,3})(\d{0,4})`);
+        return (
+          x = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '')
+        );
       },
-
       addStatement: function(){
         this.statementlist.push(this.statementEdit)
 

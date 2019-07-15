@@ -41,10 +41,10 @@
                                                 <v-card-text>
                                                     <v-layout>
                                                         <v-flex xs6 pa-3>
-                                                            <v-text-field label="First Name" v-model="personalinfoEdit.first_name"></v-text-field>
+                                                            <v-text-field label="First Name" v-model="personalinfoEdit.first_name" required :rules="fieldRules">  </v-text-field>  <!-- changed -->
                                                         </v-flex>
                                                         <v-flex pa-3>
-                                                            <v-text-field label="Last Name" v-model="personalinfoEdit.last_name"></v-text-field>
+                                                            <v-text-field label="Last Name" v-model="personalinfoEdit.last_name" required :rules="fieldRules"></v-text-field> <!-- changed -->
                                                         </v-flex>
                                                     </v-layout>
                                                     <v-layout>
@@ -52,12 +52,12 @@
                                                             <v-text-field label="Professional Title (ex. Web Developer)" v-model="personalinfoEdit.professional_title"></v-text-field>
                                                         </v-flex>
                                                         <v-flex xs6 pa-3>
-                                                            <v-text-field label="Phone number" v-model="personalinfoEdit.phone" placeholder="(555) 555-5555" required :counter="10" :rules="phoneRules" onkeyup="changePhone" ></v-text-field> <!-- changed -->
+                                                            <v-text-field label="Phone number" type="number" v-model="personalinfoEdit.phone" placeholder="(555) 555-5555" required :counter="11" :rules="fieldRules" id="phone" :oninput="phoneNum()" ></v-text-field> <!-- changed -->
                                                         </v-flex>
                                                     </v-layout>
                                                     <v-layout>
                                                         <v-flex xs6 pa-3>
-                                                            <v-text-field label="Email adress" v-model="personalinfoEdit.email" required :rules="emailRules"></v-text-field> <!-- changed -->
+                                                            <v-text-field label="Email address" v-model="personalinfoEdit.email" required :rules="emailRules"></v-text-field> <!-- changed -->
                                                         </v-flex>
                                                         <v-flex xs6 pa-3>
                                                             <v-text-field label="LinkedIn" v-model="personalinfoEdit.linkedin"></v-text-field>
