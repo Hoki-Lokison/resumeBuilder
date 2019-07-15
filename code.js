@@ -1,7 +1,6 @@
 //var url = "http://localhost:3000";
 var url = "https://createresume.herokuapp.com";
 
-
 var app= new Vue ({
     el: "#app1",
 
@@ -12,7 +11,7 @@ var app= new Vue ({
       color: "",
 
         educationlist:[],
-        workexplist:[            
+        workexplist:[
           // position: 0, // add to database
         ],
         accomplishmentlist: [],
@@ -23,7 +22,7 @@ var app= new Vue ({
         awardslist:[],
         statementlist:[],
 
-        
+
         personalinfoEdit:
         {
             first_name:"",
@@ -31,7 +30,7 @@ var app= new Vue ({
             address: "",
             city:"",
             state:"",
-            zip:"", 
+            zip:"",
             country: "",
             email: "",
             phone: "",
@@ -98,13 +97,13 @@ var app= new Vue ({
             "blue",
             "green"
         ],
-        selected_color_main: "rgb(84, 174, 219)",
+        selected_color_main: "", //changed
         selected_color_accent: "",
         pickingColorMain: false,
         pickingColor: false,
         color_brightness: 6,
         accent: 0,
-        
+
       template: "malia",
       templateLabel: "Choose a Template",
       templates: [
@@ -125,7 +124,7 @@ var app= new Vue ({
           name: "Template 4"
         },
       ],
-      
+
       statementdisplay: [],
       workexpdisplay: [],
       educationdisplay: [],
@@ -166,11 +165,11 @@ var app= new Vue ({
       zone6_type: "",
       zone7_type: "",
 
-      emailRules: [ //changed
+      emailRules: [
         v => !!v || 'E-mail is required',
         v => /.+@.+/.test(v) || 'E-mail must be valid'
       ],
-      fieldRules: [ //changed
+      fieldRules: [
         v => !!v || 'This field is required',
       ],
     },
@@ -186,15 +185,15 @@ var app= new Vue ({
       this.getData("softskill")
       this.getData("award")
 
-      addEventListener("click", function () { //changed
+      addEventListener("click", function () {
         app.selected_color_main = document.getElementById("colorMain").style.backgroundColor;
         app.selected_color_accent = document.getElementById("colorAccent").style.backgroundColor;
       }, {passive: true});
     },
-  
+
 
     methods: {
-      phoneNum: function () { //changed
+      phoneNum: function () {
         var x = this.personalinfoEdit.phone.replace(/\D/g, '').match(`(\d{0,3})(\d{0,3})(\d{0,4})`);
         return (
           x = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '')
@@ -203,7 +202,7 @@ var app= new Vue ({
 
       addStatement: function(){
         this.statementlist.push(this.statementEdit)
-  
+
         this.statementEdit= {
           statement: "",
         }
@@ -216,7 +215,7 @@ var app= new Vue ({
           work1startdate: "",
           work1enddate: "",
           work1description: "",
-          
+
         }
       },
       addEducation: function(){
@@ -228,7 +227,7 @@ var app= new Vue ({
             gradyear: "",
             menu: false
           }
-        
+
       },
       addAccomplishment: function(){
         this.accomplishmentlist.push(this.accomplishmentEdit)
@@ -271,7 +270,7 @@ var app= new Vue ({
       },
       addExtracurricular: function(){
         this.extracurricularlist.push(this.extracurricularEdit)
-  
+
         this.extracurricularEdit= {
           title: "",
           proficiency:  "",
@@ -574,9 +573,9 @@ var app= new Vue ({
           this.zone7 = display;
           this.zone7_type = type;
       },
-      
 
-      newKellyColorPickerMain: function () { 
+
+      newKellyColorPickerMain: function () { //changed
         if (this.pickingColorMain == false) {
           new KellyColorPicker({
             place : 'color-picker-main',
@@ -588,11 +587,12 @@ var app= new Vue ({
             display: 'block',
           });
           this.pickingColorMain = true;
-        } else if (this.pickingColorMain == true) {
+        } else if (this.pickingColorMain == true || this.pickingColor == true) {
           this.pickingColorMain = false;
+          this.pickingColor = false;
         };
       },
-      newKellyColorPickerAccent: function () { 
+      newKellyColorPickerAccent: function () {
         if (this.pickingColor == false) {
           new KellyColorPicker({
             place : 'color-picker-accent',
@@ -604,7 +604,8 @@ var app= new Vue ({
             display: 'block',
           });
           this.pickingColor = true;
-        } else if (this.pickingColor == true) {
+        } else if (this.pickingColorMain == true || this.pickingColor == true) {
+          this.pickingColorMain = false;
           this.pickingColor = false;
         };
       },
@@ -622,12 +623,12 @@ var app= new Vue ({
         });
         doc.save(this.personalinfoEdit.first_name+'_Resume.pdf');
       },
-  
+
 
       getData: function(want) {
         fetch(`${url}/${want}`).then(function (response) { //then executes when browser has received response from browser
           response.json().then(function (data) {
-  
+
             if(want=="statement"){
               app.statementlist = data.statementlist
             }
@@ -655,7 +656,7 @@ var app= new Vue ({
             if(want=="award"){
               app.awardslist = data.awardlist
             }
-  
+
             });
           });
         },
@@ -692,6 +693,6 @@ var app= new Vue ({
     },
 
     computed: {
-        
+
       },
 })

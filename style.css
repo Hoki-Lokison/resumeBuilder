@@ -27,9 +27,15 @@
 position: absolute;
 z-index: 100;
 }
-
-
-
+#body { /*changed*/
+   background-image: url("img/lightLeft.jpg");
+   background-size: cover;
+   background-position: center ;
+   background-attachment: fixed;
+ }
+ v-card {
+   background-color: "rgba(234, 238, 242, 1)";
+ }
 /*
 .dark { color: rgba(85, 82, 89, 1); }
 .white { color: rgba(234, 238, 242, 1); }
