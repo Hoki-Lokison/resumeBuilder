@@ -23,18 +23,23 @@
   margin: 0rem 0;
 }
 
-#fixedPos { /*changed*/
+#fixedPos {
 position: absolute;
 z-index: 100;
 }
-#body { /*changed*/
+#body {
    background-image: url("img/lightLeft.jpg");
    background-size: cover;
    background-position: center ;
    background-attachment: fixed;
    font-family: 'Nunito Sans', 'Roboto', sans-serif;
  }
-/*
+ #hero { /*changed*/
+   height: 60%;
+   margin: 10% 0;
+ }
+
+ /*
 .dark { color: rgba(85, 82, 89, 1); }
 .white { color: rgba(234, 238, 242, 1); }
 .yellow { color: rgba(242, 214, 162, 1); }
