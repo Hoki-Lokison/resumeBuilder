@@ -2,6 +2,7 @@
 <html>
 	<head>
 		<link rel="stylesheet" type="text/css" href="style.css">
+		<link <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:200,300,400,600,700,800,900&display=swap" rel="stylesheet"> <!-- changed -->
 		<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons" rel="stylesheet">
 		<link href="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.min.css" rel="stylesheet">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
@@ -26,7 +27,7 @@
                     <v-container>
                         <v-layout>
                             <v-flex xs12 lg10 offset-lg1> <!-- changed -->
-                                <v-card flat class="pa-4">
+                                <v-card  elevation=5 flat class="pa-4"> <!-- changed -->
 
                                 </v-card>
                             </v-flex>
@@ -38,9 +39,9 @@
                     <v-container>
                             <v-layout>
                                <v-flex xs12 lg10 offset-lg1>
-                                    <v-card class="pa-3">
+                                    <v-card class="pa-3" elevation=5> <!-- changed -->
                                         <v-card-text class="headline">Welcome to the ResumeBuilder!</v-card-text>
-                                        <v-card-text class="subheading">Enter in as much information as you can, but remember everything is optional. When you are done, go to the Your Info page to select which information you want included on your resume, then go to Preview to edit and customize your resume!</v-card-text>
+                                        <v-card-text class="subheading">Enter in as much information as you can, but remember everything is optional. To personalize what information will display on your resume, and to choose the arrangement of the information on your page, go to the <v-btn color="rgba(234, 238, 242, 1)" class="subheading text-capitalize pa-0 ma-1" @click="page = 'savedinfo'">Your Info</v-btn> tab.</v-card-text> <!-- changed -->
                                     </v-card>
                                 </v-flex>
                             </v-layout>
@@ -49,7 +50,7 @@
                     <v-container>
                         <v-layout>
                                 <v-flex xs12 lg10 offset-lg1>
-                                <v-card>
+                                <v-card elevation=10 >  <!-- changed -->
                                     <v-expansion-panel expand>
                                             <v-expansion-panel-content id="personalinformation">
                                                     <template v-slot:header> <v-card-text class="display-1">Personal Information</v-card-text></template>
@@ -1164,7 +1165,7 @@
 	</div>
 
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.js"></script>
-    <script src="html5kellycolorpicker.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.js"></script>
+  <script src="html5kellycolorpicker.js"></script>
 	<script src="code.js"></script>
 </html>

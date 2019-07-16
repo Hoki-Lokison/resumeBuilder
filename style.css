@@ -32,9 +32,7 @@ z-index: 100;
    background-size: cover;
    background-position: center ;
    background-attachment: fixed;
- }
- v-card {
-   background-color: "rgba(234, 238, 242, 1)";
+   font-family: 'Nunito Sans', 'Roboto', sans-serif;
  }
 /*
 .dark { color: rgba(85, 82, 89, 1); }
