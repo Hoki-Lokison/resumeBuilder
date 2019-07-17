@@ -9,7 +9,7 @@ var app= new Vue ({
       password: "",
       menu:false,
       modal: false,
-      page: "savedinfo",
+      page: "home",
       color: "",
 
         educationlist:[],
@@ -99,8 +99,8 @@ var app= new Vue ({
             "blue",
             "green"
         ],
-        selected_color_main: "rgb(84, 174, 219)",
-        selected_color_accent: "",
+        selected_color_main: "rgb(84, 174, 219)", //changed
+        selected_color_accent: "rgb(84, 174, 219)", //changed
         pickingColorMain: false,
         pickingColor: false,
         color_brightness: 6,
@@ -177,15 +177,28 @@ var app= new Vue ({
     },
     created: function () {
 
-      addEventListener("click", function () {
-        app.selected_color_main = document.getElementById("colorMain").style.backgroundColor;
-        app.selected_color_accent = document.getElementById("colorAccent").style.backgroundColor;
-      }, {passive: true});
+      /* addEventListener("click", function () { //changed, removed function
+          app.selected_color_main = document.getElementById("colorMain").style.backgroundColor;
+          app.selected_color_accent = document.getElementById("colorAccent").style.backgroundColor;
+      }, {passive: true}); */
     },
 
 
     methods: {
-      register: function() { //ADDED by TAFT
+      toPrint: function(divID) { //changed
+            var divElements = document.getElementById(divID).innerHTML;
+            var oldPage = document.body.innerHTML;
+
+            document.body.innerHTML =
+              "<html><head><title></title></head><body>" +
+              divElements + "</body>";
+
+            window.print();
+
+            document.location.reload(true);
+
+      },
+      register: function() {
   			fetch(`${url}/users/register`, {
   				method: "POST",
   				credentials: "include",
@@ -207,7 +220,7 @@ var app= new Vue ({
   			});
   		},
 
-  		login: function() { //ADDED by TAFT
+  		login: function() {
         console.log(this.username);
   			fetch(`${url}/users/login`, {
   				method: "POST",
@@ -547,6 +560,9 @@ var app= new Vue ({
 
 
       newKellyColorPickerMain: function () {
+        addEventListener("click", function () { //changed
+            app.selected_color_main = document.getElementById("colorMain").style.backgroundColor;
+        }, {passive: true});
         if (this.pickingColorMain == false) {
           new KellyColorPicker({
             place : 'color-picker-main',
@@ -563,6 +579,9 @@ var app= new Vue ({
         };
       },
       newKellyColorPickerAccent: function () {
+        addEventListener("click", function () { //changed
+            app.selected_color_accent = document.getElementById("colorAccent").style.backgroundColor;
+        }, {passive: true});
         if (this.pickingColor == false) {
           new KellyColorPicker({
             place : 'color-picker-accent',
