@@ -5,16 +5,16 @@ var app= new Vue ({
     el: "#app1",
 
     data: {
-      username: "",
-      password: "",
+      username: "", 
+      password: "", 
+      userID: "",
       menu:false,
       modal: false,
       page: "home",
       color: "",
 
         educationlist:[],
-        workexplist:[
-          // position: 0, // add to database
+        workexplist:[            
         ],
         accomplishmentlist: [],
         extracurricularlist:[],
@@ -24,7 +24,7 @@ var app= new Vue ({
         awardslist:[],
         statementlist:[],
 
-
+        
         personalinfoEdit:
         {
             first_name:"",
@@ -32,16 +32,18 @@ var app= new Vue ({
             address: "",
             city:"",
             state:"",
-            zip:"",
+            zip:"", 
             country: "",
             email: "",
             phone: "",
             branding_statement: "",
             professional_title: "",
             linkedin: "",
+            user_id: ""
         },
         statementEdit: {
           statement: "",
+          user_id: ""
         },
         workexpEdit: {
             company: "",
@@ -51,39 +53,47 @@ var app= new Vue ({
             description: "",
             start_menu: false,
             end_menu: false,
+            user_id: ""
         },
         educationEdit: {
           college: "",
           degree: "",
           gradyear: new Date().toISOString().substr(0, 10),
-          menu: false
+          menu: false,
+          user_id: ""
         },
         accomplishmentEdit: {
           title: "",
           description: "",
+          user_id: ""
         },
         extracurricularEdit: {
           title: "",
           description: "",
           date: "",
+          user_id: ""
         },
         languagesEdit: {
           title: "",
           proficiency:  "",
+          user_id: ""
         },
         programsEdit: {
           title: "",
           proficiency:  "",
+          user_id: ""
         },
         softskillsEdit: {
           title: "",
+          user_id: ""
         },
         awardsEdit: {
           title: "",
           receivedfrom:  "",
           date: new Date().toISOString().substr(0, 10),
           description: "",
-          menu:false
+          menu:false,
+          user_id: ""
         },
         proficiencylist: [
           "Beginner",
@@ -99,13 +109,13 @@ var app= new Vue ({
             "blue",
             "green"
         ],
-        selected_color_main: "rgb(84, 174, 219)", //changed
-        selected_color_accent: "rgb(84, 174, 219)", //changed
+        selected_color_main: "rgb(84, 174, 219)",
+        selected_color_accent: "rgb(84, 174, 219)",
         pickingColorMain: false,
         pickingColor: false,
         color_brightness: 6,
         accent: 0,
-
+        
       template: "malia",
       templateLabel: "Choose a Template",
       templates: [
@@ -126,7 +136,7 @@ var app= new Vue ({
           name: "Template 4"
         },
       ],
-
+      
       statementdisplay: [],
       workexpdisplay: [],
       educationdisplay: [],
@@ -167,6 +177,7 @@ var app= new Vue ({
       zone6_type: "",
       zone7_type: "",
 
+
       emailRules: [
         v => !!v || 'E-mail is required',
         v => /.+@.+/.test(v) || 'E-mail must be valid'
@@ -176,28 +187,37 @@ var app= new Vue ({
       ],
     },
     created: function () {
-
-      /* addEventListener("click", function () { //changed, removed function
-          app.selected_color_main = document.getElementById("colorMain").style.backgroundColor;
-          app.selected_color_accent = document.getElementById("colorAccent").style.backgroundColor;
-      }, {passive: true}); */
+      
     },
-
+  
 
     methods: {
       toPrint: function(divID) { //changed
-            var divElements = document.getElementById(divID).innerHTML;
-            var oldPage = document.body.innerHTML;
+        var divElements = document.getElementById(divID).innerHTML;
+        var oldPage = document.body.innerHTML;
 
-            document.body.innerHTML =
-              "<html><head><title></title></head><body>" +
-              divElements + "</body>";
+        document.body.innerHTML =
+          "<html><head><title></title></head><body>" +
+          divElements + "</body>";
 
-            window.print();
+        window.print();
 
-            document.location.reload(true);
+        document.location.reload(true);
+  },
 
-      },
+      loadlists: function() {
+        app.checklogin();
+        app.getData("statement");
+        app.getData("workexp");
+        app.getData("education");
+        app.getData("accomplishment");
+        app.getData("extracurricular");
+        app.getData("language");
+        app.getData("program");
+        app.getData("softskill");
+        app.getData("award");
+        },
+
       register: function() {
   			fetch(`${url}/users/register`, {
   				method: "POST",
@@ -220,7 +240,7 @@ var app= new Vue ({
   			});
   		},
 
-  		login: function() {
+  		login: function() { //CHANGED by TAFT
         console.log(this.username);
   			fetch(`${url}/users/login`, {
   				method: "POST",
@@ -239,16 +259,12 @@ var app= new Vue ({
   					})
   				}else if(response.status == 200){
             alert("logged in");
-            app.page = "form";
-            app.getData("statement")
-            app.getData("workexp")
-            app.getData("education")
-            app.getData("accomplishment")
-            app.getData("extracurricular")
-            app.getData("language")
-            app.getData("program")
-            app.getData("softskill")
-            app.getData("award")
+            response.json().then( function(data){
+              app.userID = data.user_id
+              app.page = "form";
+              app.loadlists();
+
+            })
 
           }
   			});
@@ -455,26 +471,26 @@ var app= new Vue ({
           }
         }
         else if (type == "extracurricular") {
-          display = this.extracurricularndisplay;
-          if (this.extracurricularnposition == "1") {
+          display = this.extracurriculardisplay;
+          if (this.extracurricularposition == "1") {
             this.apply1(type, display);
           }
-          else if (this.extracurricularnposition == "2") {
+          else if (this.extracurricularposition == "2") {
             this.apply2(type, display);
           }
-          else if (this.extracurricularnposition == "3") {
+          else if (this.extracurricularposition == "3") {
             this.apply3(type, display);
           }
-          else if (this.extracurricularnposition == "4") {
+          else if (this.extracurricularposition == "4") {
             this.apply4(type, display);
           }
-          else if (this.extracurricularnposition == "5") {
+          else if (this.extracurricularposition == "5") {
             this.apply5(type, display);
           }
-          else if (this.extracurricularnposition == "6") {
+          else if (this.extracurricularposition == "6") {
             this.apply6(type, display);
           }
-          else if (this.extracurricularnposition == "7") {
+          else if (this.extracurricularposition == "7") {
             this.apply7(type, display);
           }
         }
@@ -530,8 +546,8 @@ var app= new Vue ({
 
 
       apply1: function (type, display) {
-          this.zone1 = display;
-          this.zone1_type = type;
+        this.zone1 = display;
+        this.zone1_type = type;
       },
       apply2: function (type, display) {
         this.zone2 = display;
@@ -557,7 +573,7 @@ var app= new Vue ({
           this.zone7 = display;
           this.zone7_type = type;
       },
-
+      
 
       newKellyColorPickerMain: function () {
         addEventListener("click", function () { //changed
@@ -598,6 +614,7 @@ var app= new Vue ({
         };
       },
 
+
       pdfSave: function () {
         var doc = new jsPDF();
         var specialElementHandlers = {
@@ -612,13 +629,35 @@ var app= new Vue ({
         doc.save(this.personalinfoEdit.first_name+'_Resume.pdf');
       },
 
+      checklogin: function(){//ADDED BY TAFT
+        fetch(`${url}/users/checklogin`, {
+  				method: "GET",
+  				credentials: "include",
+  			}).then(function(response) {
+  				if (response.status == 403) {
+  					response.json().then(function(data) {
+  						alert(data.msg);
+              app.userID = ""
+              app.page = "login"
+  					})
+  				}else if(response.status == 200){
+            response.json().then( function(data){
+              app.userID = data.user_id
+
+            })
+
+          }
+  			});
+
+      },
+  
 
       getData: function(want) {
         fetch(`${url}/${want}`,{
           credentials: "include"
         }).then(function (response) { //then executes when browser has received response from browser
           response.json().then(function (data) {
-
+  
             if(want=="statement"){
               app.statementlist = data.statementlist
             }
@@ -646,15 +685,56 @@ var app= new Vue ({
             if(want=="award"){
               app.awardslist = data.awardlist
             }
-
+  
             });
           });
         },
 
+        removeFromList: function (itemlist,objid){// ADDED BY TAFT
+          var filtered = itemlist.filter(function(item){
+            return item._id != objid
+        });
+          return filtered
+
+      },
+
+      removeFromDisplay: function (whatlist,objid){// ADDED BY TAFT
+        if(whatlist="workexp"){
+          app.workexpdisplay= app.removeFromList(app.workexpdisplay,objid)
+        }
+        if(whatlist="statement"){
+          app.statementdisplay= app.removeFromList(app.statementdisplay,objid)
+        }
+        if(whatlist="education"){
+          app.educationdisplay= app.removeFromList(app.educationdisplay,objid)
+        }
+        if(whatlist="accomplishment"){
+          app.accomplishmentdisplay= app.removeFromList(app.accomplishmentdisplay,objid)
+        }
+        if(whatlist="extracurricular"){
+          app.extracurriculardisplay= app.removeFromList(app.extracurriculardisplay,objid)
+        }
+        if(whatlist="language"){
+          app.languagesdisplay= app.removeFromList(app.languagesdisplay,objid)
+        }
+        if(whatlist="program"){
+          app.programsdisplay= app.removeFromList(app.programsdisplay,objid)
+        }
+        if(whatlist="softskill"){
+          app.softskillsdisplay= app.removeFromList(app.softskillsdisplay,objid)
+        }
+        if(whatlist="award"){
+          app.awardsdisplay= app.removeFromList(app.awardsdisplay,objid)
+        }
+
+      },
+
         submitStatement: function (){ //ADDED BY TAFT
+          app.statementEdit.user_id = app.userID
           fetch(`${url}/statement`, {
-          method:"POST",
-          headers:{
+            credentials: "include",
+            method:"POST",
+            headers:{
             "Content-type": "application/json"
           },
           body: JSON.stringify(app.statementEdit)
@@ -673,9 +753,11 @@ var app= new Vue ({
         },
 
         submitNewWorkexp: function (){
+          app.workexpEdit.user_id = app.userID
           fetch(`${url}/workexp`, {
-          method:"POST",
-          headers:{
+            credentials: "include",
+            method:"POST",
+            headers:{
             "Content-type": "application/json"
           },
           body: JSON.stringify(app.workexpEdit)
@@ -700,14 +782,18 @@ var app= new Vue ({
         },
 
         submitEducation: function (){ //ADDED BY TAFT
+          app.educationEdit.user_id = app.userID
           fetch(`${url}/education`, {
-          method:"POST",
-          headers:{
+            credentials: "include",
+            method:"POST",
+            headers:{
             "Content-type": "application/json"
           },
           body: JSON.stringify(app.educationEdit)
         }).then(function (response) {
           //response.json().then((data)=>{console.log(data.msg)})
+
+
 
           app.educationEdit=
            {
@@ -724,9 +810,11 @@ var app= new Vue ({
         },
 
         submitAccomplishment: function (){ //ADDED BY TAFT
+          app.accomplishmentEdit.user_id = app.userID
           fetch(`${url}/accomplishment`, {
-          method:"POST",
-          headers:{
+            credentials: "include",
+            method:"POST",
+            headers:{
             "Content-type": "application/json"
           },
           body: JSON.stringify(app.accomplishmentEdit)
@@ -746,9 +834,11 @@ var app= new Vue ({
         },
 
         submitLanguage: function (){ //ADDED BY TAFT
+          app.languagesEdit.user_id = app.userID
           fetch(`${url}/language`, {
-          method:"POST",
-          headers:{
+            credentials: "include",
+            method:"POST",
+            headers:{
             "Content-type": "application/json"
           },
           body: JSON.stringify(app.languagesEdit)
@@ -768,9 +858,11 @@ var app= new Vue ({
         },
 
         submitProgram: function (){ //ADDED BY TAFT
+          app.programsEdit.user_id = app.userID
           fetch(`${url}/program`, {
-          method:"POST",
-          headers:{
+            credentials: "include",
+            method:"POST",
+            headers:{
             "Content-type": "application/json"
           },
           body: JSON.stringify(app.programsEdit)
@@ -789,9 +881,11 @@ var app= new Vue ({
 
         },
         submitAward: function (){ //ADDED BY TAFT
+          app.awardsEdit.user_id = app.userID
           fetch(`${url}/award`, {
-          method:"POST",
-          headers:{
+            credentials: "include",
+            method:"POST",
+            headers:{
             "Content-type": "application/json"
           },
           body: JSON.stringify(app.awardsEdit)
@@ -814,9 +908,11 @@ var app= new Vue ({
         },
 
         submitExtracurricular: function (){ //ADDED BY TAFT
+          app.extracurricularEdit.user_id = app.userID
           fetch(`${url}/extracurricular`, {
-          method:"POST",
-          headers:{
+            credentials: "include",
+            method:"POST",
+            headers:{
             "Content-type": "application/json"
           },
           body: JSON.stringify(app.extracurricularEdit)
@@ -837,8 +933,9 @@ var app= new Vue ({
         },
         submitSoftskill: function (){ //ADDED BY TAFT
           fetch(`${url}/softskill`, {
-          method:"POST",
-          headers:{
+            credentials: "include",
+            method:"POST",
+            headers:{
             "Content-type": "application/json"
           },
           body: JSON.stringify(app.softskillsEdit)
@@ -875,9 +972,19 @@ var app= new Vue ({
 
         },
 
+
+
     },
 
     computed: {
+        category_title_font: function () {
+          return {
+            'subheading': this.$vuetify.breakpoint.xsOnly, 
+            'title': this.$vuetify.breakpoint.smOnly, 
+            'headline': this.$vuetify.breakpoint.mdOnly, 
+            'display-1': this.$vuetify.breakpoint.lgOnly
+          }
 
+        }
       },
 })
