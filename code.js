@@ -5,16 +5,16 @@ var app= new Vue ({
     el: "#app1",
 
     data: {
-      username: "",
-      password: "",
+      username: "", 
+      password: "", 
       userID: "",
       menu:false,
       modal: false,
-      page: "preview",
+      page: "home",
       color: "",
 
         educationlist:[],
-        workexplist:[
+        workexplist:[            
         ],
         accomplishmentlist: [],
         extracurricularlist:[],
@@ -24,7 +24,7 @@ var app= new Vue ({
         awardslist:[],
         statementlist:[],
 
-
+        
         personalinfoEdit:
         {
             first_name:"",
@@ -32,7 +32,7 @@ var app= new Vue ({
             address: "",
             city:"",
             state:"",
-            zip:"",
+            zip:"", 
             country: "",
             email: "",
             phone: "",
@@ -71,7 +71,7 @@ var app= new Vue ({
           title: "",
           description: "",
           date: "",
-          menu: false, // changed
+          menu: false,
           user_id: ""
         },
         languagesEdit: {
@@ -116,7 +116,7 @@ var app= new Vue ({
         pickingColor: false,
         color_brightness: 6,
         accent: 0,
-
+        
       template: "malia",
       templateLabel: "Choose a Template",
       templates: [
@@ -137,7 +137,7 @@ var app= new Vue ({
           name: "Template 4"
         },
       ],
-
+      
       statementdisplay: [],
       workexpdisplay: [],
       educationdisplay: [],
@@ -178,6 +178,16 @@ var app= new Vue ({
       zone6_type: "",
       zone7_type: "",
 
+      workexpcheck: false,
+      educationcheck: false,
+      accomplishmentscheck: false,
+      extracurricularscheck: false,
+      languagescheck: false,
+      programscheck: false,
+      softskillscheck: false,
+      statementcheck: false,
+      awardscheck: false,
+
 
       emailRules: [
         v => !!v || 'E-mail is required',
@@ -188,12 +198,11 @@ var app= new Vue ({
       ],
     },
     created: function () {
-
     },
-
+  
 
     methods: {
-      toPrint: function(divID) { //changed
+      toPrint: function(divID) { 
         var divElements = document.getElementById(divID).innerHTML;
         var oldPage = document.body.innerHTML;
 
@@ -574,7 +583,7 @@ var app= new Vue ({
           this.zone7 = display;
           this.zone7_type = type;
       },
-
+      
 
       newKellyColorPickerMain: function () {
         addEventListener("click", function () { //changed
@@ -630,7 +639,7 @@ var app= new Vue ({
         doc.save(this.personalinfoEdit.first_name+'_Resume.pdf');
       },
 
-      checklogin: function(){
+      checklogin: function(){//ADDED BY TAFT
         fetch(`${url}/users/checklogin`, {
   				method: "GET",
   				credentials: "include",
@@ -651,14 +660,14 @@ var app= new Vue ({
   			});
 
       },
-
+  
 
       getData: function(want) {
         fetch(`${url}/${want}`,{
           credentials: "include"
         }).then(function (response) { //then executes when browser has received response from browser
           response.json().then(function (data) {
-
+  
             if(want=="statement"){
               app.statementlist = data.statementlist
             }
@@ -686,7 +695,7 @@ var app= new Vue ({
             if(want=="award"){
               app.awardslist = data.awardlist
             }
-
+  
             });
           });
         },
@@ -730,7 +739,7 @@ var app= new Vue ({
 
       },
 
-        submitStatement: function (){
+        submitStatement: function (){ //ADDED BY TAFT
           app.statementEdit.user_id = app.userID
           fetch(`${url}/statement`, {
             credentials: "include",
@@ -782,7 +791,7 @@ var app= new Vue ({
 
         },
 
-        submitEducation: function (){
+        submitEducation: function (){ //ADDED BY TAFT
           app.educationEdit.user_id = app.userID
           fetch(`${url}/education`, {
             credentials: "include",
@@ -810,7 +819,7 @@ var app= new Vue ({
 
         },
 
-        submitAccomplishment: function (){
+        submitAccomplishment: function (){ //ADDED BY TAFT
           app.accomplishmentEdit.user_id = app.userID
           fetch(`${url}/accomplishment`, {
             credentials: "include",
@@ -834,7 +843,7 @@ var app= new Vue ({
 
         },
 
-        submitLanguage: function (){
+        submitLanguage: function (){ //ADDED BY TAFT
           app.languagesEdit.user_id = app.userID
           fetch(`${url}/language`, {
             credentials: "include",
@@ -858,7 +867,7 @@ var app= new Vue ({
 
         },
 
-        submitProgram: function (){
+        submitProgram: function (){ //ADDED BY TAFT
           app.programsEdit.user_id = app.userID
           fetch(`${url}/program`, {
             credentials: "include",
@@ -881,7 +890,7 @@ var app= new Vue ({
 
 
         },
-        submitAward: function (){
+        submitAward: function (){ //ADDED BY TAFT
           app.awardsEdit.user_id = app.userID
           fetch(`${url}/award`, {
             credentials: "include",
@@ -908,7 +917,7 @@ var app= new Vue ({
 
         },
 
-        submitExtracurricular: function (){
+        submitExtracurricular: function (){ //ADDED BY TAFT
           app.extracurricularEdit.user_id = app.userID
           fetch(`${url}/extracurricular`, {
             credentials: "include",
@@ -925,7 +934,7 @@ var app= new Vue ({
             title: "",
             description: "",
             date: "",
-            menu:false //changed
+            menu:false
           }
           app.getData("extracurricular");
 
@@ -933,7 +942,7 @@ var app= new Vue ({
 
 
         },
-        submitSoftskill: function (){
+        submitSoftskill: function (){ //ADDED BY TAFT
           fetch(`${url}/softskill`, {
             credentials: "include",
             method:"POST",
@@ -955,7 +964,8 @@ var app= new Vue ({
         },
 
         deleteItem:  function(thing,item){
-          console.log("Trying to deletes")
+          console.log("Trying to deletes");
+          app.removeFromDisplay(thing, item._id);
           fetch(`${url}/${thing}/${item._id}`,
           {
             credentials: "include",
@@ -970,6 +980,7 @@ var app= new Vue ({
               })
             }
 
+
           });
 
         },
@@ -981,9 +992,9 @@ var app= new Vue ({
     computed: {
         category_title_font: function () {
           return {
-            'subheading': this.$vuetify.breakpoint.xsOnly,
-            'title': this.$vuetify.breakpoint.smOnly,
-            'headline': this.$vuetify.breakpoint.mdOnly,
+            'subheading': this.$vuetify.breakpoint.xsOnly, 
+            'title': this.$vuetify.breakpoint.smOnly, 
+            'headline': this.$vuetify.breakpoint.mdOnly, 
             'display-1': this.$vuetify.breakpoint.lgOnly
           }
 
