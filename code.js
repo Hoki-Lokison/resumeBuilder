@@ -11,8 +11,18 @@ var app= new Vue ({
       userID: "",
       menu:false,
       modal: false,
-      page: "home",
+      page: "form",
       color: "",
+      panel: 0, //changed
+      panel1: 0, //changed
+      panel2: 0, //changed
+      panel3: 0, //changed
+      panel4: 0, //changed
+      panel5: 0, //changed
+      panel6: 0, //changed
+      panel7: 0, //changed
+      panel8: 0, //changed
+      panel9: 0, //changed
 
         educationlist:[],
         workexplist:[            
@@ -888,6 +898,7 @@ var app= new Vue ({
             response.json().then( function(data){
               app.userID = data.user_id
               return true
+
             })
 
           }
@@ -1238,6 +1249,7 @@ var app= new Vue ({
 
     },
     computed: {
+        /* changed, removed function 
         category_title_font: function () {
           return {
             'subheading': this.$vuetify.breakpoint.xsOnly, 
@@ -1246,6 +1258,14 @@ var app= new Vue ({
             'display-1': this.$vuetify.breakpoint.lgOnly
           }
 
-        }
+        }, */
+
+        binding () { //changed
+          const binding = {}
+
+          if (this.$vuetify.breakpoint.mdAndDown) binding.column = true
+
+          return binding
       },
+  },
 })
