@@ -11,7 +11,7 @@ var app= new Vue ({
       userID: "",
       menu:false,
       modal: false,
-      page: "savedinfo",
+      page: "preview",
       color: "",
       panel: 0, 
       panel1: 0, 
@@ -241,6 +241,12 @@ var app= new Vue ({
       fieldRules: [
         v => !!v || 'This field is required',
       ],
+
+      fonts: [
+      'Merriweather', 'Montserrat', 'Libre Baskerville', 'Karla', 'Arvo', 'Source Serif Pro', 'EB Garamond', 'Cairo',
+      ], //changed
+      chosenFont: "", //changed
+      fontLabel: "Choose Font...", //changed
     },
 
     created: function () {
@@ -249,18 +255,25 @@ var app= new Vue ({
   
 
     methods: {
-      toPrint: function(divID) {
+      toPrint: function(divID) { //changed
         var divElements = document.getElementById(divID).innerHTML;
+        var headDoc = document.head.innerHTML;
         var oldPage = document.body.innerHTML;
+        console.log(headDoc)
 
         document.body.innerHTML =
-          "<html><head><title></title></head><body>" +
+          "<html>" + headDoc + `<body>` +
           divElements + "</body>";
+
+
 
         window.print();
 
         document.location.reload(true);
-  },
+      },
+      changeFont: function () { //changed
+        document.getElementById(page).style.fontFamily = this.chosenFont + ", sans-serif";
+      },
 
 
   register: function() {
