@@ -23,6 +23,10 @@
   margin: 0rem 0;
 }
 
+.overflow {
+  overflow: hidden;
+}
+
 #fixedPos {
 position: absolute;
 z-index: 100;
@@ -171,6 +175,58 @@ z-index: 100;
   .maliaTempBar {
     height: 200px;
  }
+.homeMargin {
+    margin: 15% 0;
+ }
+ .load {
+  margin: 18% 0 48% 0;
+ }
+
+ .maliaTempBar {
+  height: 266.7px;
+ }
+
+  #page .display-4Def {
+  font-size: 112px;
+  font-weight: 100;
+ }
+  #page .display-3Def {
+  font-size: 56px;
+  font-weight: 400;
+ }
+  #page .display-2Def {
+  font-size: 45px;
+  font-weight: 400;
+ }
+  #page .display-1Def {
+  font-size: 34px;
+  font-weight: 400;
+ }
+  #page .headlineDef {
+  font-size: 24px;
+  font-weight: 400;
+ }
+  #page .titleDef {
+  font-size: 20px;
+  font-weight: 500;
+ }
+  #page .subheadingDef {
+  font-size: 16px;
+  font-weight: 400;
+ }
+   #page .body-2Def {
+  font-size: 14px;
+  font-weight: 500;
+ }
+  #page .body-1Def {
+  font-size: 14px;
+  font-weight: 400;
+ }
+  #page .captionDef {
+  font-size: 12px;
+  font-weight: 400;
+ }
+
 }
 @media only screen and (max-width: 1260px) {
   #smallPage {
