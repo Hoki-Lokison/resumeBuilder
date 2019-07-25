@@ -47,7 +47,6 @@ z-index: 100;
     width: 1093.3px;
     margin: 0px auto;
     overflow: hidden;
-    font-family: 'Nunito Sans', 'Roboto', sans-serif;
  }
  #smallPage {
     height: 424.4px;
@@ -60,7 +59,7 @@ z-index: 100;
     padding: 10px 4px;
    }
  .homeMargin {
-    margin: 15% 0;
+    margin: 20% 0;
  }
  .load {
   margin: 18% 0 48% 0;

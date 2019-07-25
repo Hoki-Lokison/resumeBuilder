@@ -11,7 +11,7 @@ var app= new Vue ({
       userID: "",
       menu:false,
       modal: false,
-      page: "preview",
+      page: "home",
       color: "",
       panel: 0, 
       panel1: 0, 
@@ -245,7 +245,6 @@ var app= new Vue ({
       fonts: [
       'Merriweather', 'Montserrat', 'Libre Baskerville', 'Karla', 'Arvo', 'Source Serif Pro', 'EB Garamond', 'Cairo',
       ], //changed
-      chosenFont: "", //changed
       fontLabel: "Choose Font...", //changed
     },
 
@@ -271,8 +270,12 @@ var app= new Vue ({
 
         document.location.reload(true);
       },
-      changeFont: function () { //changed
-        document.getElementById(page).style.fontFamily = this.chosenFont + ", sans-serif";
+      changeFont: function (font) { //changed
+        font = String(font);
+        var pageID = document.getElementById(page);
+        console.log(pageID);
+        document.getElementById(font).style.fontFamily = font + ",sans-serif";
+        document.getElementById(page).style.fontFamily = font + ",sans-serif";
       },
 
 
@@ -1059,6 +1062,13 @@ var app= new Vue ({
         const binding = {}
 
         if (this.$vuetify.breakpoint.mdAndDown) binding.column = true
+
+        return binding
+    },
+    lgbinding () {
+        const binding = {}
+
+        if (this.$vuetify.breakpoint.lgAndDown) binding.column = true
 
         return binding
     },
