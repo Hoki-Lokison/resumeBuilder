@@ -12,7 +12,7 @@ var app= new Vue ({
       userID: "",
       menu:false,
       modal: false,
-      page: "savedinfo",
+      page: "home",
       color: "",
       panel: 0, 
       panel1: 0, 
@@ -26,8 +26,7 @@ var app= new Vue ({
       panel9: 0, 
 
         educationlist:[],
-        workexplist:[            
-        ],
+        workexplist:[],
         accomplishmentlist: [],
         extracurricularlist:[],
         languageslist:[],
@@ -156,10 +155,10 @@ var app= new Vue ({
           model: "template6",
           name: "Template 6"
         },
-        //{ changed
-          //model: "template7",
-          //name: "Template 7"
-        //},
+        // {
+        //   model: "template7",
+        //   name: "Template 7"
+        // },
       ],
       
       statementdisplay: [],
@@ -236,6 +235,8 @@ var app= new Vue ({
       deleteError: false, 
       deleteErrorMsg: "", 
 
+      imgsrc: "img/blackresumebackground.png",
+
 
       emailRules: [
         v => !!v || 'E-mail is required',
@@ -300,9 +301,47 @@ var app= new Vue ({
           app.loginErrorMsg = "Username and Password are required";
         })
       } else if (response.status == 201) {
-        app.loginError = false; // changed
+        console.log("registered")
+        app.loginError = false;
         app.registerSuccess = true;
+        fetch(`${url}/users/login`, {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-type": "application/json"
+          },
+          body: JSON.stringify({
+            username: app.username,
+            password: app.password
+          })
+
+        }).then(function(response) {
+
+          if (response.status == 403) {
+            response.json().then(function(data) {
+              app.loginError = true;
+              app.loginErrorMsg = data.msg;
+            })
+          }else if(response.status == 200){
+              app.loginError = false;
+              app.loginSuccess = true;
+            response.json().then( function(data){
+              app.userID = data.user_id
+              app.page = "form";
+              app.islogin = true;
+              app.newPosition();
+              app.newPersonalInfo();
+              app.loadlists();
+
+            })
+
+          }
+        });
+
+
+
         app.page = "form";
+
       }
     });
   },
@@ -326,7 +365,7 @@ var app= new Vue ({
           app.loginErrorMsg = data.msg;
         })
       }else if(response.status == 200){
-          app.loginError = false; // changed
+          app.loginError = false;
           app.loginSuccess = true;
         response.json().then( function(data){
           app.userID = data.user_id
@@ -355,12 +394,12 @@ var app= new Vue ({
   },
 
 
-      phoneNum: function () {
-        var x = this.personalinfoEdit.phone.replace(/\D/g, '').match(`(\d{0,3})(\d{0,3})(\d{0,4})`);
-        return (
-          x = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '')
-        );
-      },
+      // phoneNum: function () {
+      //   var x = this.personalinfoEdit.phone.replace(/\D/g, '').match(`(\d{0,3})(\d{0,3})(\d{0,4})`);
+      //   return (
+      //     x = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '')
+      //   );
+      // },
 
       clearlists: function() {
         app.educationlist = []
@@ -381,9 +420,11 @@ var app= new Vue ({
         app.programsdisplay= []
         app.softskillsdisplay= []
         app.awardsdisplay= []
+        app.personalinfoEdit={}
+        app.positionEdit={}
       },
 
-  
+
 
       newKellyColorPickerMain: function () {
         addEventListener("click", function () {
@@ -440,11 +481,11 @@ var app= new Vue ({
         }).then(function (response) {
           if (response.status == 400){
             response.json().then(function (data) {
-              app.addError = true; // changed
-              app.addErrorMsg = data.msg; // changed
+              app.addError = true;
+              app.addErrorMsg = data.msg;
             });
           } else {
-            app.addError = false; // changed
+            app.addError = false;
             app.includeDisplay();
           }
         });
@@ -465,11 +506,101 @@ var app= new Vue ({
           await app.getData("softskill");
           await app.getData("award");
           // app.setPosition();
+          app.getPersonalInfo();
           app.includeDisplay();
         }
         app.loadinglists = false;
         console.log("reloading");
         },
+
+        newPersonalInfo: async function (){
+          console.log("created new personal info object")
+
+          await app.checklogin()
+          var newuserinfo = {
+          first_name: "First",
+          last_name: "Last",
+          address: "123 Address",
+          city: "City",
+          state: "State",
+          phone: "555-555-5555",
+          zip: 55555,
+          country: "Country",
+          email: "Email@email.com",
+          user_id: app.userID
+          }
+
+          fetch(`${url}/personalinfo`, {
+            credentials: "include",
+            method:"POST",
+            headers:{
+            "Content-type": "application/json"
+          },
+          body: JSON.stringify(newuserinfo)
+        }).then(function (response) {
+          response.json().then((response)=>{
+            console.log(response.personalinfo.first_name)
+            app.personalinfoEdit.first_name = response.personalinfo.first_name
+            app.personalinfoEdit.last_name = response.personalinfo.last_name
+            app.personalinfoEdit.professional_title = response.personalinfo.professional_title
+            app.personalinfoEdit.linkedin = response.personalinfo.linkedin
+            app.personalinfoEdit.address = response.personalinfo.address
+            app.personalinfoEdit.city = response.personalinfo.city
+            app.personalinfoEdit.state = response.personalinfo.state
+            app.personalinfoEdit.phone = response.personalinfo.phone
+            app.personalinfoEdit.zip = response.personalinfo.zip
+            app.personalinfoEdit.country = response.personalinfo.country
+            app.personalinfoEdit.email = response.personalinfo.email
+            app.personalinfoEdit.user_id = response.personalinfo.user_id
+
+          })
+
+        });
+        },
+
+        getPersonalInfo: function(){
+       fetch(`${url}/personalinfo`,{
+         credentials: "include"
+       }).then(function(response){
+         response.json().then(function(data){
+           app.personalinfoEdit = data
+         })
+       })
+     },
+
+     PersonalInfoUpdate: function(){
+
+       fetch(`${url}/personalinfo`, {
+         method:"PUT",
+         headers:{
+         "Content-type": "application/json"
+         },
+         credentials: "include",
+         body: JSON.stringify(app.personalinfoEdit)
+
+
+     }).then(function (response) {
+       app.personalinfoEdit={
+         first_name :app.personalinfoEdit.first_name,
+         last_name:app.personalinfoEdit.last_name,
+         linkedin: app.personalinfoEdit.linkedin,
+         professional_title: app.personalinfoEdit.professional_title,
+         address:app.personalinfoEdit.address,
+         city:app.personalinfoEdit.city,
+         state:app.personalinfoEdit.state,
+         zip:app.personalinfoEdit.zip ,
+         country:app.personalinfoEdit.country,
+         email:app.personalinfoEdit.email,
+         phone:app.personalinfoEdit.phone,
+         branding_statement:app.personalinfoEdit.branding_statement,
+
+       }
+
+     app.getData("personalinfo");
+   })
+     },
+
+
 
       includeDisplay: function () {
         var newdisplay=[]
@@ -557,27 +688,33 @@ var app= new Vue ({
       },
 
       getPosition: function () {
-        fetch(`${url}/position`,{
-          credentials: "include"
-        }).then(function (response) { //then executes when browser has received response from browser
-          response.json().then(function (data) {
-            app.positionEdit.statementposition = data.statementposition;
-            app.positionEdit.workexpposition = data.workexpposition;
-            app.positionEdit.educationposition = data.educationposition;
-            app.positionEdit.accomplishmentposition = data.accomplishmentposition;
-            app.positionEdit.extracurricularposition = data.extracurricularposition;
-            app.positionEdit.languagesposition = data.languagesposition;
-            app.positionEdit.programsposition = data.programsposition;
-            app.positionEdit.softskillsposition = data.softskillsposition;
-            app.positionEdit.awardsposition = data.awardsposition;
 
-            app.setZone();
+        if(app.islogin){
+          fetch(`${url}/position`,{
+            credentials: "include"
+          }).then(function (response) { //then executes when browser has received response from browser
+            response.json().then(function (data) {
+              app.positionEdit.statementposition = data.statementposition;
+              app.positionEdit.workexpposition = data.workexpposition;
+              app.positionEdit.educationposition = data.educationposition;
+              app.positionEdit.accomplishmentposition = data.accomplishmentposition;
+              app.positionEdit.extracurricularposition = data.extracurricularposition;
+              app.positionEdit.languagesposition = data.languagesposition;
+              app.positionEdit.programsposition = data.programsposition;
+              app.positionEdit.softskillsposition = data.softskillsposition;
+              app.positionEdit.awardsposition = data.awardsposition;
+
+              app.setZone();
+
+            });
           });
-        });
+
+        }
 
       },
 
       newPosition: async function (){
+        console.log("created new position object")
         await app.checklogin()
         app.positionEdit.user_id = app.userID
         fetch(`${url}/position`, {
@@ -601,7 +738,36 @@ var app= new Vue ({
       });
       },
 
-      setPosition: function () {
+      setPosition: function (position, type) {
+
+        if(app.positionEdit.statementposition == position && type !=="statement"){
+          app.positionEdit.statementposition = 0
+        }
+        if(app.positionEdit.workexpposition == position && type !=="workexp"){
+          app.positionEdit.workexpposition = 0
+        }
+        if(app.positionEdit.educationposition == position && type !=="education"){
+          app.positionEdit.educationposition = 0
+        }
+        if(app.positionEdit.extracurricularposition == position && type !=="extracurricular"){
+          app.positionEdit.extracurricularposition = 0
+        }
+        if(app.positionEdit.languagesposition == position && type !=="languages"){
+          app.positionEdit.languagesposition = 0
+        }
+        if(app.positionEdit.programsposition == position && type !=="programs"){
+          app.positionEdit.programsposition = 0
+        }
+        if(app.positionEdit.softskillsposition == position && type !=="softskills"){
+          app.positionEdit.softskillsposition = 0
+        }
+        if(app.positionEdit.awardsposition == position && type !=="awards"){
+          app.positionEdit.awardsposition = 0
+        }
+        if(app.positionEdit.accomplishmentposition == position && type !=="accomplishment"){
+          app.positionEdit.accomplishmentposition = 0
+        }
+
 
         fetch(`${url}/position`, {
           method:"PUT",
@@ -622,6 +788,23 @@ var app= new Vue ({
       },
 
       setZone:function (){
+        app.zone1 = []
+        app.zone2 = []
+        app.zone3= []
+        app.zone4 = []
+        app.zone5 = []
+        app.zone6 = []
+        app.zone7 = []
+        app.zone8 = []
+        app.zone1_type= ""
+        app.zone2_type= ""
+        app.zone3_type= ""
+        app.zone4_type= ""
+        app.zone5_type= ""
+        app.zone6_type= ""
+        app.zone7_type= ""
+        app.zone8_type= ""
+
         app.sortToZone(app.positionEdit.statementposition,app.statementdisplay, "statement");
         app.sortToZone(app.positionEdit.workexpposition,app.workexpdisplay, "workexp");
         app.sortToZone(app.positionEdit.educationposition,app.educationdisplay, "education");
@@ -636,10 +819,11 @@ var app= new Vue ({
 
       sortToZone: function (position,displayList,type) {
 
+
+
         if(position == 1){
           app.zone1=displayList;
           app.zone1_type=type;
-          console.log("added to zone 1");
         }
         if(position == 2){
           app.zone2=displayList;
@@ -666,6 +850,7 @@ var app= new Vue ({
           app.zone7_type=type;
         }
       },
+
 
 
       pdfSave: function () {
@@ -1076,7 +1261,7 @@ var app= new Vue ({
 
     },
     computed: {
-      
+
       binding () {
         const binding = {}
 
@@ -1093,5 +1278,5 @@ var app= new Vue ({
     },
 },
 
-      
+
 })

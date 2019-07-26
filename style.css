@@ -47,7 +47,7 @@ z-index: 100;
     width: 1093.3px;
     margin: 0px auto;
     overflow: hidden;
-   font-family: 'Nunito Sans', 'Roboto', sans-serif;
+    font-family: 'Nunito Sans', 'Roboto', sans-serif;
  }
  #smallPage {
     height: 424.4px;
@@ -153,10 +153,6 @@ z-index: 100;
   font-size: 16px;
   font-weight: 400;
  }
- #smallpage .body-2Def { 
-  font-size: 7px;
-  font-weight: 500;
- } /*changed */
 
  @media only screen and (max-width: 1903px) {
   #smallPage {
@@ -169,10 +165,6 @@ z-index: 100;
     margin: 3px;
     padding: 2px;
    }
-   #smallpage .body-2Def { 
-    font-size: 7px;
-    font-weight: 500;
-   } /*changed */
 }
 
  @media only screen and (max-width: 1247px) {
@@ -248,11 +240,6 @@ z-index: 100;
     margin: 3px;
     padding: 10px 4px;
    }
-
- #smallpage .body-2Def { 
-  font-size: 7px;
-  font-weight: 500;
- } /*changed */
 }
 
  @media only screen and (max-width: 850px) {
